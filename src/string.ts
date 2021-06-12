@@ -1,7 +1,9 @@
-import {bindThis} from "./common"
+import {applyExtensions} from "./common"
 
-export function applyExtension() {
-    String.prototype.padLeft = bindThis(padLeft)
+export function applyAllExtensions() {
+    applyExtensions(String.prototype, {
+        padLeft,
+    })
 }
 
 export function padLeft(value, length, padChar=" ") {
