@@ -1,13 +1,11 @@
-import {applyExtensions} from "./common"
 
-export function extendString() {
-    applyExtensions(String.prototype, {
-        padLeft,
-        padRight,
-    });
-}
-
-export function padLeft(value, length, padChar=" ") {
+/**
+ * 
+ * @param value 
+ * @param length 
+ * @param padChar 
+ */
+export function padLeft(value: string, length: number, padChar: string=" "): string {
     if (length <= value.length) {
         return value;
     }
@@ -16,7 +14,7 @@ export function padLeft(value, length, padChar=" ") {
 }
 
 
-export function padRight(value, length, padChar=" ") {
+export function padRight(value: string, length: number, padChar: string=" "): string {
     if (length <= value.length) {
         return value;
     }

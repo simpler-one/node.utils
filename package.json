@@ -1,0 +1,30 @@
+{
+  "name": "node.utils",
+  "version": "0.1.0",
+  "description": "Template for NodeJS",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "rimraf dist && tsc -p src",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "rimraf": "^2.6.3",
+    "ts-node": "^8.3.0",
+    "tslint": "^5.20.0",
+    "typescript": "^3.5.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/simpler-one/node.utils.git"
+  },
+  "keywords": [
+    "util"
+  ],
+  "author": "Hiroaki Kobayashi",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/simpler-one/node.utils/issues"
+  },
+  "homepage": "https://github.com/simpler-one/node.utils#readme"
+}
