@@ -1,8 +1,8 @@
-import * as iterator from "./iterator"
-import * as map from "./map"
-import * as number from "./number"
-import * as object from "./object"
-import * as string from "./string"
+import * as iterator from "./Iterator"
+import * as map from "./Map"
+import * as number from "./Number"
+import * as object from "./Object"
+import * as string from "./String"
 
 
 export {
