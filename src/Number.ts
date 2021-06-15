@@ -1,8 +1,9 @@
 /**
- * 
- * @param value 
- * @param min 
- * @param max 
+ * Return a clipped (limited) value
+ * 範囲内に制限された値を返却します
+ * @param value value
+ * @param min min limit
+ * @param max max limit
  */
 export function clip(value: number, min: number, max: number): number {
     return Math.min(Math.max(min, value), max);
