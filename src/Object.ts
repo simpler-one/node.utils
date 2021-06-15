@@ -2,8 +2,8 @@ const READONLY = {writable: false};
 
 
 /**
- * Check equality of two objects
- * 2つのオブジェクトが等しいか調べます
+ * Check equality of two objects.  
+ * 2つのオブジェクトが等しいか調べます。
  * @param obj1 object
  * @param obj2 object
  * @param recursive checks recursively
@@ -43,10 +43,11 @@ export function equals(obj1: any, obj2: any, recursive=false) {
 
 
 /**
- * 
- * @param src 
- * @param dst 
- * @param recursive 
+ * Copy values of object.  
+ * オブジェクトの値をコピーします。
+ * @param src source object
+ * @param dst destination object
+ * @param recursive copies recursively
  */
 export function copy(src: Object, dst: Object, recursive: boolean=false): void {
     if (typeof src !== "object" || typeof dst !== "object") {
@@ -78,31 +79,36 @@ export function copy(src: Object, dst: Object, recursive: boolean=false): void {
 
 
 /**
- * Create a copy of object.
+ * Create a copy of object.  
  * オブジェクトのコピーを作成します。
  * @param src source object
  * @param recursive copies recursively
- * @returns clone object
+ * @returns cloned object
  */
 export function clone<T>(src: T, recursive: boolean=false): T {
-    if (typeof src !== "object") {
+    if (typeof src !== "object" || src === null) {
         return src;
     }
 
-    // TODO: recursive
-    const result = {
-        ...src,
-        constructor: src.constructor,
-    };
+    let result: T
+    if (recursive) {
+        result = {} as T
+        for (const k in src) {
+            result[k] = clone(src[k], true)
+        }
+    } else {
+        result = {...src};
+    }
 
-    Object.defineProperty(result, "constructor", {enumerable: false});
+    Object.setPrototypeOf(result, Object.getPrototypeOf(src))
     return result;
 }
 
 
 /**
- * TODO
- * @param obj 
+ * Set properties of object readonly.  
+ * オブジェクトのプロパティを読み取り専用に設定します。
+ * @param obj object
  */
 export function setReadonly(obj: Object): void {
     for (const k in obj) {
@@ -112,12 +118,14 @@ export function setReadonly(obj: Object): void {
 
 
 /**
- * TODO
- * @param obj 
+ * Create a cloned object having readonly properties.  
+ * 読み取り専用の値を持つオブジェクトのクローンを生成します。
+ * @param obj object
+ * @param recursive clones recursively
  * @returns 
  */
-export function cloneReadonly<T>(obj: T): T {
-    const result = clone(obj);
+export function cloneAsReadonly<T>(obj: T, recursive: boolean=false): T {
+    const result = clone(obj, recursive);
     setReadonly(result);
     return result;
 }
