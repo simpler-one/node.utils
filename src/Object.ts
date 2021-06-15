@@ -9,12 +9,12 @@ const READONLY = {writable: false};
  * @param recursive checks recursively
  * @returns equality
  */
-export function equals(obj1, obj2, recursive=false) {
-    if (obj1 === null || obj1 === undefined) {
-        return obj1 === obj2;
+export function equals(obj1: any, obj2: any, recursive=false) {
+    if (obj1 === obj2) {
+        return true
     }
-    if (obj2 === null || obj2 === undefined) {
-        return false
+    if (obj1 === null || obj2 === null || typeof obj1 !== "object" || typeof obj2 !== "object") {
+        return false;
     }
 
     const keyList = Object.keys(obj1);
@@ -33,19 +33,7 @@ export function equals(obj1, obj2, recursive=false) {
     for (const k of keyList) {
         const v1 = obj1[k]
         const v2 = obj2[k]
-        if (v1 === v2) {
-            continue;
-        }
-
-        if (!recursive) {
-            return false;
-        }
-
-        if (typeof v1 !== "object" || typeof v2 !== "object") {
-            return false;
-        }
-
-        if (!equals(v1, v2)) {
+        if (v1 !== v2 && (!recursive || !equals(v1, v2))) {
             return false;
         }
     }
