@@ -11,6 +11,7 @@ export function* map<TIn, TOut>(iterator: Iterator<TIn>, mapping: (value: TIn) =
     let cur = iterator.next();
     while (!cur.done) {
         yield mapping(cur.value);
+        cur = iterator.next();
     }
 
     if (cur.value !== undefined) {
@@ -31,6 +32,7 @@ export function* filter<T>(iterator: Iterator<T>, acceptance: (value: T) => bool
         if (acceptance(cur.value)) {
             yield cur.value;
         }
+        cur = iterator.next();
     }
 
     if (cur.value !== undefined && acceptance(cur.value)) {
@@ -45,7 +47,7 @@ export function* filter<T>(iterator: Iterator<T>, acceptance: (value: T) => bool
  * @param iterator source iterator. this iterator will be consumed
  * @param rejection rejection condition
  */
-export function* drop<T>(iterator: Iterator<T>, rejection: (value: T) => boolean): Generator<T> {
+export function drop<T>(iterator: Iterator<T>, rejection: (value: T) => boolean): Generator<T> {
     return filter(iterator, (value) => !rejection(value));
 }
 

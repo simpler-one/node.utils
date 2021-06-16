@@ -3,7 +3,6 @@
     "compilerOptions": {
         "outDir": "../dist",
         "declaration": true,
-        "target": "es2017"
     },
     "include": [
         "./**/*"
