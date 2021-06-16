@@ -2,6 +2,27 @@ const READONLY = {writable: false};
 
 
 /**
+ * Get a property value.  
+ * プロパティの値を取得します。
+ * @param obj object
+ * @param path path to property
+ */
+export function getProperty(obj: Object, path: string[]): any {
+    let cur = obj
+
+    for (const k of path) {
+        if (!cur) {
+            return undefined
+        }
+
+        cur = cur[k]
+    }
+
+    return cur
+}
+
+
+/**
  * Check equality of two objects.  
  * 2つのオブジェクトが等しいか調べます。
  * @param obj1 object
@@ -50,21 +71,22 @@ export function equals(obj1: any, obj2: any, recursive=false) {
  * @param recursive copies recursively
  */
 export function copy(src: Object, dst: Object, recursive: boolean=false): void {
-    if (typeof src !== "object" || typeof dst !== "object") {
+    if (typeof src !== "object" || typeof dst !== "object" || src === null || dst === null) {
         return;
     }
 
     if (!recursive) {
-        for (const [k, srcV] of Object.entries(src)) {
-            dst[k] = srcV;
+        for (const k in src) {
+            dst[k] = src[k];
         }
         return;
     }
 
-    for (const [k, srcV] of Object.entries(src)) {
+    for (const k in src) {
+        const srcV = src[k];
         if (typeof srcV !== "object" || srcV === null) {
             dst[k] = srcV;
-            return;
+            continue;
         }
 
         // TODO: array
@@ -106,14 +128,59 @@ export function clone<T>(src: T, recursive: boolean=false): T {
 
 
 /**
+ * Create a merged object from two objects.  
+ * 2つのオブジェクトをマージしたオブジェクトを生成します。
+ * @param obj1 object
+ * @param obj2 object
+ * @param recursive merge recursively
+ * @returns merged object
+ */
+export function merge<T1, T2>(obj1: T1, obj2: T2, recursive: boolean=false): T1 & T2 {
+    if (typeof obj1 !== "object" || typeof obj2 !== "object" || obj1 === null || obj2 === null) {
+        return;
+    }
+
+    // TODO: array
+    if (!recursive) {
+        return {
+            ...obj1,
+            ...obj2,
+        };
+    }
+
+    // TODO: array
+    const result: any = {...obj1};
+    for (const k in obj2) {
+        const v = obj2[k];
+
+        if (v === null || v === undefined) {
+            continue; // Should overwrite?
+        }
+
+        if (typeof v !== "object" || typeof result[k] !== "object" || result[k] === null) {
+            result[k] = v;
+            continue;
+        }
+
+        result[k] = merge(v, result[v], true)
+    }
+
+    return result;
+}
+
+
+/**
  * Set properties of object readonly.  
  * オブジェクトのプロパティを読み取り専用に設定します。
  * @param obj object
+ * @returns same as parameter object
  */
-export function setReadonly(obj: Object): void {
+export function setReadonly<T>(obj: T): T {
     for (const k in obj) {
         Object.defineProperty(obj, k, READONLY);
     }
+
+    return obj;
 }
 
 
