@@ -74,6 +74,10 @@ export function zip<T1, T2, T3>(obj1: Iterable<T1>, obj2: Iterable<T2>, obj3: It
  */
 export function zip(...objects: Iterable<any>[]): Generator<any[]>;
 export function* zip(...objects: Iterable<any>[]): Generator<any[]> {
+    if (objects.length === 0) {
+        return;
+    }
+
     const iters = objects.map(obj => obj[Symbol.iterator]());
 
     let curs = iters.map(iter => iter.next());
@@ -109,17 +113,17 @@ export function range(start: number, stop: number): Generator<number>;
  * @param increment increment value
  */
 export function range(start: number, stop: number, increment: number): Generator<number>;
-export function range(): Generator<number> {
+export function range(arg1: number, arg2?: number, arg3?: number): Generator<number> {
     if (arguments.length === 1) {
         return _range(0, arguments[0], 1)
     }
 
     if (arguments.length === 2) {
-        return _range(0, arguments[0], 1)
+        return _range(arguments[0], arguments[1], 1)
     }
 
     if (arguments.length >= 3) {
-        return _range(0, arguments[0], 1)
+        return _range(arguments[0], arguments[1], arguments[2])
     }
 
     return generateEmpty()
@@ -132,11 +136,11 @@ function* _range(start: number, stop: number, increment: number) {
 
     if (0 < increment) {
         for (let i = start; i < stop; i += increment) {
-            yield i
+            yield i;
         }    
     } else {
         for (let i = start; i > stop; i += increment) {
-            yield i
+            yield i;
         }    
     }
 }
