@@ -169,6 +169,20 @@ export function merge<T1, T2>(obj1: T1, obj2: T2, recursive: boolean=false): T1 
 }
 
 
+export function naRemoved(obj: Object): Object {
+    const result = {};
+
+    for (const k in obj) {
+        const v = obj[k];
+        if (v !== null && v !== undefined) {
+            result[k] = v;
+        }
+    }
+
+    return result;
+}
+
+
 /**
  * Set properties of object readonly.  
  * オブジェクトのプロパティを読み取り専用に設定します。
