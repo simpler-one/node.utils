@@ -1,6 +1,7 @@
 import {drop, filter, map, range, zip} from "./Iterator"
 
 
+// TODO: add test {done: true, value: xxx}
 describe("Iterator", () => {
     describe("drop()", () => {
         it("should return empty iterator and rejection will not be called", () => {
