@@ -1,6 +1,3 @@
-const READONLY = {writable: false};
-
-
 /**
  * Get a property value.  
  * プロパティの値を取得します。
@@ -179,34 +176,5 @@ export function naRemoved(obj: Object): Object {
         }
     }
 
-    return result;
-}
-
-
-/**
- * Set properties of object readonly.  
- * オブジェクトのプロパティを読み取り専用に設定します。
- * @param obj object
- * @returns same as parameter object
- */
-export function setReadonly<T>(obj: T): T {
-    for (const k in obj) {
-        Object.defineProperty(obj, k, READONLY);
-    }
-
-    return obj;
-}
-
-
-/**
- * Create a cloned object having readonly properties.  
- * 読み取り専用の値を持つオブジェクトのクローンを生成します。
- * @param obj object
- * @param recursive clones recursively
- * @returns 
- */
-export function cloneAsReadonly<T>(obj: T, recursive: boolean=false): T {
-    const result = clone(obj, recursive);
-    setReadonly(result);
     return result;
 }
