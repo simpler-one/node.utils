@@ -166,6 +166,12 @@ export function merge<T1, T2>(obj1: T1, obj2: T2, recursive: boolean=false): T1 
 }
 
 
+/**
+ * Create N/A removed object.
+ * N/A値が削除されたオブジェクトを生成します
+ * @param obj object
+ * @returns N/A removed object
+ */
 export function naRemoved(obj: Object): Object {
     const result = {};
 
