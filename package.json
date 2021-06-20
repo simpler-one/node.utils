@@ -12,7 +12,8 @@
     "versions:installed": "npm list --depth=0",
 
     ".copy-dist": "cpx package.json dist/ && cpx LICENSE dist/ && cpx README.md dist/",
-
+    ".remapcov": "cat coverage/coverage.json | ./node_modules/.bin/remap-istanbul > coverage/coverage-remap.json && mv -f coverage/coverage-remap.json coverage/coverage.json",
+    ".remapcov:win": "type coverage\\coverage.json | .\\node_modules\\.bin\\remap-istanbul > coverage\\coverage-remap.json && del coverage\\coverage.json && ren coverage\\coverage-remap.json coverage.json",
     "__outdated__": "npm outdated"
   },
   "dependencies": {},
