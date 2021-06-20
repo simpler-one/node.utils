@@ -1,8 +1,9 @@
-function* generateEmpty() { }
+function* generateEmpty() { /* NOP */ }
 
 
 /**
- * Creates a wrapping iterator. It'll return a mapped value each iteration  
+ * Creates a wrapping iterator. It'll return a mapped value each iteration
+ *
  * ラッパーイテレータを生成します。イテレータはイテレーション毎に、変換された値を返却します
  * @param iterator source iterator. this iterator will be consumed
  * @param mapping mapping function
@@ -21,7 +22,8 @@ export function* map<TIn, TOut>(iterator: Iterator<TIn>, mapping: (value: TIn) =
 
 
 /**
- * Create a wrapping iterator. It'll return a only accepted value each iteration  
+ * Create a wrapping iterator. It'll return a only accepted value each iteration
+ *
  * ラッパーイテレータを生成します。イテレータはイテレーション毎に、受入条件を満たした値のみを返却します
  * @param iterator source iterator. this iterator will be consumed
  * @param acceptance acceptance condition
@@ -42,10 +44,12 @@ export function* filter<T>(iterator: Iterator<T>, acceptance: (value: T) => bool
 
 
 /**
- * Create a wrapping iterator. It'll return a only NOT rejected value each iteration  
+ * Create a wrapping iterator. It'll return a only NOT rejected value each iteration
+ *
  * ラッパーイテレータを生成します。イテレータはイテレーション毎に、拒否条件を満たさなかった値のみを返却します
  * @param iterator source iterator. this iterator will be consumed
  * @param rejection rejection condition
+ * @returns filtered iterator
  */
 export function drop<T>(iterator: Iterator<T>, rejection: (value: T) => boolean): Generator<T> {
     return filter(iterator, (value) => !rejection(value));
@@ -53,24 +57,30 @@ export function drop<T>(iterator: Iterator<T>, rejection: (value: T) => boolean)
 
 
 /**
- * Create a wrapping iterator. It'll return an array that aggregates values from every iterable each iteration  
+ * Create a wrapping iterator. It'll return an array that aggregates values from every iterable each iteration
+ *
  * ラッパーイテレータを生成します。イテレータはイテレーション毎に、各イテラブルの値を1つずつ集めた配列を返却します
  * @param obj1 iterable object
  * @param obj2 iterable object
+ * @returns aggregating iterator
  */
 export function zip<T1, T2>(obj1: Iterable<T1>, obj2: Iterable<T2>): Generator<[T1, T2]>;
 /**
- * Create a wrapping iterator. It'll return an array that aggregates values from every iterable each iteration  
+ * Create a wrapping iterator. It'll return an array that aggregates values from every iterable each iteration
+ *
  * ラッパーイテレータを生成します。イテレータはイテレーション毎に、各イテラブルの値を1つずつ集めた配列を返却します
  * @param obj1 iterable object
  * @param obj2 iterable object
  * @param obj3 iterable object
+ * @returns aggregating iterator
  */
 export function zip<T1, T2, T3>(obj1: Iterable<T1>, obj2: Iterable<T2>, obj3: Iterable<T3>): Generator<[T1, T2, T3]>;
 /**
- * Create a wrapping iterator. It'll return an array that aggregates values from every iterable each iteration  
+ * Create a wrapping iterator. It'll return an array that aggregates values from every iterable each iteration
+ *
  * ラッパーイテレータを生成します。イテレータはイテレーション毎に、各イテラブルの値を1つずつ集めた配列を返却します
  * @param objects iterable objects
+ * @returns aggregating iterator
  */
 export function zip(...objects: Iterable<any>[]): Generator<any[]>;
 export function* zip(...objects: Iterable<any>[]): Generator<any[]> {
@@ -93,54 +103,66 @@ export function* zip(...objects: Iterable<any>[]): Generator<any[]> {
 
 
 /**
- * Create a new iterator. It'll return values increasing by `1` each iteration from `0` to `stop` [0 <= value < stop]  
- * 新しいイテレータを生成します。イテレータはイテレーション毎に、 `0` から `stop` まで `1` ずつ増加する値を返却します [0 <= value < stop]
+ * Create a new iterator.
+ * It'll return values increasing by `1` each iteration from `0` to `stop` [0 <= value < stop]
+ *
+ * 新しいイテレータを生成します。
+ * イテレータはイテレーション毎に、 `0` から `stop` まで `1` ずつ増加する値を返却します [0 <= value < stop]
  * @param stop stop value. This value will not be included
+ * @returns counting iterator
  */
 export function range(stop: number): Generator<number>;
 /**
- * Create a new iterator. It'll return values increasing by `1` each iteration from `start` to `stop` [start <= value < stop]  
- * 新しいイテレータを生成します。イテレータはイテレーション毎に、 `start` から `stop` まで `1` ずつ増加する値を返却します [start <= value < stop]
+ * Create a new iterator.
+ * It'll return values increasing by `1` each iteration from `start` to `stop` [start <= value < stop]
+ *
+ * 新しいイテレータを生成します。
+ * イテレータはイテレーション毎に、 `start` から `stop` まで `1` ずつ増加する値を返却します [start <= value < stop]
  * @param start start value
  * @param stop stop value. This value will not be included
+ * @returns counting iterator
  */
 export function range(start: number, stop: number): Generator<number>;
 /**
- * Create a new iterator. It'll return values increasing by `increment` each iteration from `start` to `stop` [start <= value < stop]  
- * 新しいイテレータを生成します。イテレータはイテレーション毎に、 `start` から `stop` まで `increment` ずつ増加する値を返却します [start <= value < stop]
+ * Create a new iterator.
+ * It'll return values increasing by `increment` each iteration from `start` to `stop` [start <= value < stop]
+ *
+ * 新しいイテレータを生成します。
+ * イテレータはイテレーション毎に、 `start` から `stop` まで `increment` ずつ増加する値を返却します [start <= value < stop]
  * @param start start value
  * @param stop stop value. This value will not be included
  * @param increment increment value
+ * @returns counting iterator
  */
 export function range(start: number, stop: number, increment: number): Generator<number>;
-export function range(arg1: number, arg2?: number, arg3?: number): Generator<number> {
-    if (arguments.length === 1) {
-        return _range(0, arguments[0], 1)
+export function range(...args: number[]): Generator<number> {
+    if (args.length === 1) {
+        return _range(0, args[0], 1);
     }
 
-    if (arguments.length === 2) {
-        return _range(arguments[0], arguments[1], 1)
+    if (args.length === 2) {
+        return _range(args[0], args[1], 1);
     }
 
-    if (arguments.length >= 3) {
-        return _range(arguments[0], arguments[1], arguments[2])
+    if (args.length >= 3) {
+        return _range(args[0], args[1], args[2]);
     }
 
-    return generateEmpty()
+    return generateEmpty();
 }
 
 function* _range(start: number, stop: number, increment: number) {
     if (increment === 0) {
-        throw Error("increment is 0")
+        throw Error("increment is 0");
     }
 
     if (0 < increment) {
         for (let i = start; i < stop; i += increment) {
             yield i;
-        }    
+        }
     } else {
         for (let i = start; i > stop; i += increment) {
             yield i;
-        }    
+        }
     }
 }

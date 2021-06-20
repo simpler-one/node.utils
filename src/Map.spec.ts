@@ -1,4 +1,4 @@
-import { drop, filter, map, reverseLookup } from "./Map"
+import { drop, filter, map, reverseLookup } from "./Map";
 
 const MAP = new Map([
     [1, 10],
@@ -7,7 +7,7 @@ const MAP = new Map([
     [4, 40],
     [5, 50],
 ]);
-const MAP_COPY = new Map(MAP.entries())
+const MAP_COPY = new Map(MAP.entries());
 
 
 describe("Map", () => {
@@ -159,4 +159,5 @@ describe("Map", () => {
                 [50, 5],
             ]));
         });
-    });});
+    });
+});

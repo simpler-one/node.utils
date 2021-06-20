@@ -1,4 +1,4 @@
-import { clip } from "./Number"
+import { clip } from "./Number";
 
 
 describe("Number", () => {

@@ -1,13 +1,13 @@
 import {
-    isNan, notNan,
-    isVoid, notVoid,
-    isNa, notNa,
-    isStructured, notStructured,
-    equalValues,
-} from "./check"
+    equalValues, isNa,
+    isNan, isStructured,
+    isVoid, notNa,
+    notNan, notStructured,
+    notVoid,
+} from "./check";
 
 
-describe("check", ()=> {
+describe("check", () => {
     describe("isNan()", () => {
         it("should return true", () => {
             // Given

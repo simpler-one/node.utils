@@ -1,18 +1,18 @@
-import { drop, filter, map, range, zip } from "./Iterator"
+import { drop, filter, map, range, zip } from "./Iterator";
 
 
 function createDoneValueIterator<T>(value: T): Iterator<T> {
     return {
         next: () => {
-            return {done: true, value}
+            return {done: true, value};
         },
-    }
-};
+    };
+}
 
 function createDoneValueIterable<T>(value: T): Iterable<T> {
     return {
         [Symbol.iterator]: () => createDoneValueIterator(value),
-    }
+    };
 }
 
 
@@ -186,7 +186,7 @@ describe("Iterator", () => {
             // When
             const result = range(start, stop, increment);
             try {
-                result.next()
+                result.next();
             } catch (e) {
                 error = true;
             }

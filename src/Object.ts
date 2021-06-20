@@ -1,13 +1,15 @@
-import { equalValues } from "./check"
+import { equalValues } from "./check";
 
 
 /**
- * Get a property value.  
+ * Get a property value.
+ *
  * プロパティの値を取得します。
  * @param obj object
  * @param path path to property
+ * @returns value of property
  */
-export function getProperty(obj: Object, path: string[]): any {
+export function getProperty(obj: object, path: string[]): any {
     let cur = obj;
 
     for (const k of path) {
@@ -23,14 +25,15 @@ export function getProperty(obj: Object, path: string[]): any {
 
 
 /**
- * Check equality of two objects.  
+ * Check equality of two objects.
+ *
  * 2つのオブジェクトが等しいか調べます。
  * @param obj1 object
  * @param obj2 object
  * @param recursive checks recursively
  * @returns equality
  */
-export function equals(obj1: any, obj2: any, recursive=false) {
+export function equals(obj1: any, obj2: any, recursive= false) {
     if (obj1 === obj2) {
         return true;
     }
@@ -45,7 +48,7 @@ export function equals(obj1: any, obj2: any, recursive=false) {
     const keyList = Object.keys(obj1);
     const keySet = new Set(Object.keys(obj2));
 
-    if (keyList.length != keySet.size) {
+    if (keyList.length !== keySet.size) {
         return false;
     }
 
@@ -68,7 +71,7 @@ export function equals(obj1: any, obj2: any, recursive=false) {
             if (!equalValues(v1, v2) && !equals(v1, v2)) {
                 return false;
             }
-        }    
+        }
     }
 
     return true;
@@ -76,24 +79,27 @@ export function equals(obj1: any, obj2: any, recursive=false) {
 
 
 /**
- * Copy values of object.  
+ * Copy values of object.
+ *
  * オブジェクトの値をコピーします。
  * @param src source object
  * @param dst destination object
  * @param recursive copies recursively
  */
-export function copy(src: Object, dst: Object, recursive: boolean=false): void {
+export function copy(src: object, dst: object, recursive: boolean= false): void {
     if (typeof src !== "object" || typeof dst !== "object" || src === null || dst === null) {
         return;
     }
 
     if (!recursive) {
+        /* eslint-disable-next-line guard-for-in *//* tslint:disable-next-line:forin */
         for (const k in src) {
             dst[k] = src[k];
         }
         return;
     }
 
+    /* eslint-disable-next-line guard-for-in *//* tslint:disable-next-line:forin */
     for (const k in src) {
         const srcV = src[k];
         if (typeof srcV !== "object" || srcV === null) {
@@ -102,7 +108,7 @@ export function copy(src: Object, dst: Object, recursive: boolean=false): void {
         }
 
         // TODO: array
-        const dstV = dst[k]
+        const dstV = dst[k];
         if (typeof dstV !== "object" || dstV === null) {
             dst[k] = clone(srcV, true);
         } else {
@@ -113,20 +119,22 @@ export function copy(src: Object, dst: Object, recursive: boolean=false): void {
 
 
 /**
- * Create a copy of object.  
+ * Create a copy of object.
+ *
  * オブジェクトのコピーを作成します。
  * @param src source object
  * @param recursive copies recursively
  * @returns cloned object
  */
-export function clone<T>(src: T, recursive: boolean=false): T {
+export function clone<T>(src: T, recursive: boolean= false): T {
     if (typeof src !== "object" || src === null) {
         return src;
     }
 
-    let result: T
+    let result: T;
     if (recursive) {
         result = (src instanceof Array ? [] : {}) as T;
+        /* eslint-disable-next-line guard-for-in *//* tslint:disable-next-line:forin */
         for (const k in src) {
             result[k] = clone(src[k], true);
         }
@@ -138,20 +146,26 @@ export function clone<T>(src: T, recursive: boolean=false): T {
         }
     }
 
-    Object.setPrototypeOf(result, Object.getPrototypeOf(src))
+    Object.setPrototypeOf(result, Object.getPrototypeOf(src));
     return result;
 }
 
 
 /**
- * Create a new iterator. It'll return every enumerable property.  
+ * Create a new iterator. It'll return every enumerable property.
+ *
  * 新しいイテレータを作成します。イテレータは全ての列挙可能なプロパティを返却します。
  * @param obj object
  * @param recursive iterate recursively
  * @param includesBranch includes branch object
  */
-export function* entries(obj: Object, recursive: boolean=false, includesBranch: boolean=false): Generator<[string[], any]> {
+export function* entries(
+    obj: object,
+    recursive: boolean= false,
+    includesBranch: boolean= false
+): Generator<[string[], any]> {
     if (!recursive) {
+        /* eslint-disable-next-line guard-for-in *//* tslint:disable-next-line:forin */
         for (const k in obj) {
             yield [[k], obj[k]];
         }
@@ -164,7 +178,8 @@ export function* entries(obj: Object, recursive: boolean=false, includesBranch: 
 }
 
 
-function* _entries(obj: Object, basePath: string[], includesBranch: boolean): Generator<[string[], any]> {
+function* _entries(obj: object, basePath: string[], includesBranch: boolean): Generator<[string[], any]> {
+    /* eslint-disable-next-line guard-for-in *//* tslint:disable-next-line:forin */
     for (const k in obj) {
         const v = obj[k];
         const curPath = [...basePath, k];
@@ -186,13 +201,15 @@ function* _entries(obj: Object, basePath: string[], includesBranch: boolean): Ge
 
 /**
  * Create void removed object.
+ *
  * void値が削除されたオブジェクトを生成します
  * @param obj object
- * @returns N/A removed object
+ * @returns void removed object
  */
-export function voidRemoved(obj: Object): Object {
+export function voidRemoved(obj: object): object {
     const result = {};
 
+    /* eslint-disable-next-line guard-for-in *//* tslint:disable-next-line:forin */
     for (const k in obj) {
         const v = obj[k];
         if (v !== null && v !== undefined) {
@@ -206,13 +223,15 @@ export function voidRemoved(obj: Object): Object {
 
 /**
  * Create empty removed object.
+ *
  * 空の値が削除されたオブジェクトを生成します
  * @param obj object
  * @returns empty removed object
  */
-export function emptyRemoved(obj: Object): Object {
+export function emptyRemoved(obj: object): object {
     const result = {};
 
+    /* eslint-disable-next-line guard-for-in *//* tslint:disable-next-line:forin */
     for (const k in obj) {
         const v = obj[k];
         if (v !== null && v !== undefined && v.length !== 0) {

@@ -1,4 +1,4 @@
-import { clone, copy, emptyRemoved, entries, equals, getProperty, voidRemoved } from "./Object"
+import { clone, copy, emptyRemoved, entries, equals, getProperty, voidRemoved } from "./Object";
 
 const OBJ = Object.freeze({
     a: 123,
@@ -49,23 +49,23 @@ describe("String", () => {
         it("should set shallow copied values", () => {
             // Given
             const obj = OBJ;
-            const result = {}
+            const result = {} as any;
             // When
             copy(obj, result, false);
             // Then
             expect(result).toEqual(obj);
-            expect(result["b"]).toBe(obj.b);
+            expect(result.b).toBe(obj.b);
         });
 
         it("should set deep copied values", () => {
             // Given
             const obj = OBJ;
-            const result = {b: {}}
+            const result = {b: {}};
             // When
             copy(obj, result, true);
             // Then
             expect(result).toEqual(obj);
-            expect(result["b"]).not.toBe(obj.b);
+            expect(result.b).not.toBe(obj.b);
         });
 
         it("should leave not copied properties (shallow)", () => {
@@ -204,7 +204,7 @@ describe("String", () => {
         it("should return true when equal objects given (deep)", () => {
             // Given
             const obj1 = {
-                z:{...OBJ},
+                z: {...OBJ},
             };
             const obj2 = {
                 z: {...OBJ},
