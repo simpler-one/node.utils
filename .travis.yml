@@ -8,7 +8,10 @@ branches:
   - master
   - develop
 
+before_script:
+  - bash <(curl -Ls https://coverage.codacy.com/get.sh) download
+
 after_success:
   - npm run .remapcov
   - npx codecov
-  - npm run .cov
+  - bash <(curl -Ls https://coverage.codacy.com/get.sh)
