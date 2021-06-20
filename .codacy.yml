@@ -1,3 +1,10 @@
 ---
+engines:
+  duplication:
+    enabled: true
+    exclude_paths:
+      - "src/**/*.spec.ts"
+
+
 exclude_paths:
   - "src/**/*.spec.ts"
