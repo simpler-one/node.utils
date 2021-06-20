@@ -1,4 +1,4 @@
-import {drop, filter, map} from "./Map"
+import { drop, filter, map, reverseLookup } from "./Map"
 
 const MAP = new Map([
     [1, 10],
@@ -133,4 +133,30 @@ describe("Map", () => {
             ]));
         });
     });
-});
+
+
+    describe("reverseLookup()", () => {
+        it("should return empty map", () => {
+            // Given
+            const obj = new Map([]);
+            // When
+            const result = reverseLookup(obj);
+            // Then
+            expect(result).toEqual(new Map([]));
+        });
+
+        it("should return mapped map", () => {
+            // Given
+            const obj = MAP;
+            // When
+            const result = reverseLookup(obj);
+            // Then
+            expect(result).toEqual(new Map([
+                [10, 1],
+                [20, 2],
+                [30, 3],
+                [40, 4],
+                [50, 5],
+            ]));
+        });
+    });});

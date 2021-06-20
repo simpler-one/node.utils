@@ -1,4 +1,19 @@
-import {drop, filter, map, range, zip} from "./Iterator"
+import { drop, filter, map, range, zip } from "./Iterator"
+
+
+function createDoneValueIterator<T>(value: T): Iterator<T> {
+    return {
+        next: () => {
+            return {done: true, value}
+        },
+    }
+};
+
+function createDoneValueIterable<T>(value: T): Iterable<T> {
+    return {
+        [Symbol.iterator]: () => createDoneValueIterator(value),
+    }
+}
 
 
 // TODO: add test {done: true, value: xxx}
@@ -24,7 +39,6 @@ describe("Iterator", () => {
             expect([...result]).toEqual([]);
         });
 
-
         it("should return iterator having not rejected values", () => {
             // Given
             const iter = [1, 2, 3, 4, 5][Symbol.iterator]();
@@ -33,6 +47,16 @@ describe("Iterator", () => {
             const result = drop(iter, rejection);
             // Then
             expect([...result]).toEqual([1, 3, 5]);
+        });
+
+        it("should return iterator having single value", () => {
+            // Given
+            const iter = createDoneValueIterator(123);
+            const rejection = () => false;
+            // When
+            const result = drop(iter, rejection);
+            // Then
+            expect([...result]).toEqual([123]);
         });
     });
 
@@ -67,6 +91,16 @@ describe("Iterator", () => {
             // Then
             expect([...result]).toEqual([2, 4]);
         });
+
+        it("should return iterator having single value", () => {
+            // Given
+            const iter = createDoneValueIterator(123);
+            const acceptance = () => true;
+            // When
+            const result = filter(iter, acceptance);
+            // Then
+            expect([...result]).toEqual([123]);
+        });
     });
 
 
@@ -89,6 +123,16 @@ describe("Iterator", () => {
             const result = map(iter, mapping);
             // Then
             expect([...result]).toEqual([2, 4, 6, 8, 10]);
+        });
+
+        it("should return iterator having single value", () => {
+            // Given
+            const iter = createDoneValueIterator(123);
+            const mapping = (v: number) => v * 2;
+            // When
+            const result = map(iter, mapping);
+            // Then
+            expect([...result]).toEqual([246]);
         });
     });
 
@@ -196,5 +240,15 @@ describe("Iterator", () => {
             // Then
             expect([...result]).toEqual([[1, "a", true], [2, "b", false]]);
         });
+    });
+
+    it("should return iterator having single pair", () => {
+        // Given
+        const iter1 = createDoneValueIterable(123);
+        const iter2 = createDoneValueIterable("abc");
+        // When
+        const result = zip(iter1, iter2);
+        // Then
+        expect([...result]).toEqual([[123, "abc"]]);
     });
 });

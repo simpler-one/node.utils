@@ -1,3 +1,6 @@
+import { equalValues } from "./check"
+
+
 /**
  * Get a property value.  
  * プロパティの値を取得します。
@@ -5,17 +8,17 @@
  * @param path path to property
  */
 export function getProperty(obj: Object, path: string[]): any {
-    let cur = obj
+    let cur = obj;
 
     for (const k of path) {
-        if (!cur) {
-            return undefined
+        if (cur === null || cur === undefined) {
+            return undefined;
         }
 
-        cur = cur[k]
+        cur = cur[k];
     }
 
-    return cur
+    return cur;
 }
 
 
@@ -29,9 +32,13 @@ export function getProperty(obj: Object, path: string[]): any {
  */
 export function equals(obj1: any, obj2: any, recursive=false) {
     if (obj1 === obj2) {
-        return true
+        return true;
     }
     if (obj1 === null || obj2 === null || typeof obj1 !== "object" || typeof obj2 !== "object") {
+        return false;
+    }
+
+    if ((obj1 instanceof Array) !== (obj2 instanceof Array)) {
         return false;
     }
 
@@ -48,12 +55,20 @@ export function equals(obj1: any, obj2: any, recursive=false) {
         }
     }
 
-    for (const k of keyList) {
-        const v1 = obj1[k]
-        const v2 = obj2[k]
-        if (v1 !== v2 && (!recursive || !equals(v1, v2))) {
-            return false;
+    if (!recursive) {
+        for (const k of keyList) {
+            if (!equalValues(obj1[k], obj2[k])) {
+                return false;
+            }
         }
+    } else {
+        for (const k of keyList) {
+            const v1 = obj1[k];
+            const v2 = obj2[k];
+            if (!equalValues(v1, v2) && !equals(v1, v2)) {
+                return false;
+            }
+        }    
     }
 
     return true;
@@ -91,7 +106,7 @@ export function copy(src: Object, dst: Object, recursive: boolean=false): void {
         if (typeof dstV !== "object" || dstV === null) {
             dst[k] = clone(srcV, true);
         } else {
-            copy(srcV, dstV, true)
+            copy(srcV, dstV, true);
         }
     }
 }
@@ -111,12 +126,16 @@ export function clone<T>(src: T, recursive: boolean=false): T {
 
     let result: T
     if (recursive) {
-        result = {} as T
+        result = (src instanceof Array ? [] : {}) as T;
         for (const k in src) {
-            result[k] = clone(src[k], true)
+            result[k] = clone(src[k], true);
         }
     } else {
-        result = {...src};
+        if (src instanceof Array) {
+            result = [...src] as any;
+        } else {
+            result = {...src};
+        }
     }
 
     Object.setPrototypeOf(result, Object.getPrototypeOf(src))
@@ -125,41 +144,60 @@ export function clone<T>(src: T, recursive: boolean=false): T {
 
 
 /**
- * Create a merged object from two objects.  
- * 2つのオブジェクトをマージしたオブジェクトを生成します。
- * @param obj1 object
- * @param obj2 object
- * @param recursive merge recursively
- * @returns merged object
+ * Create a new iterator. It'll return every enumerable property.  
+ * 新しいイテレータを作成します。イテレータは全ての列挙可能なプロパティを返却します。
+ * @param obj object
+ * @param recursive iterate recursively
+ * @param includesBranch includes branch object
  */
-export function merge<T1, T2>(obj1: T1, obj2: T2, recursive: boolean=false): T1 & T2 {
-    if (typeof obj1 !== "object" || typeof obj2 !== "object" || obj1 === null || obj2 === null) {
+export function* entries(obj: Object, recursive: boolean=false, includesBranch: boolean=false): Generator<[string[], any]> {
+    if (!recursive) {
+        for (const k in obj) {
+            yield [[k], obj[k]];
+        }
         return;
     }
 
-    // TODO: array
-    if (!recursive) {
-        return {
-            ...obj1,
-            ...obj2,
-        };
+    for (const [p, v] of _entries(obj, [], includesBranch)) {
+        yield [p, v];
     }
+}
 
-    // TODO: array
-    const result: any = {...obj1};
-    for (const k in obj2) {
-        const v = obj2[k];
 
-        if (v === null || v === undefined) {
-            continue; // Should overwrite?
-        }
-
-        if (typeof v !== "object" || typeof result[k] !== "object" || result[k] === null) {
-            result[k] = v;
+function* _entries(obj: Object, basePath: string[], includesBranch: boolean): Generator<[string[], any]> {
+    for (const k in obj) {
+        const v = obj[k];
+        const curPath = [...basePath, k];
+        if (typeof v !== "object" || v === null) {
+            yield [curPath, v];
             continue;
         }
 
-        result[k] = merge(v, result[v], true)
+        if (includesBranch) {
+            yield [curPath, v];
+        }
+
+        for (const [cldP, cldV] of _entries(v, curPath, includesBranch)) {
+            yield [cldP, cldV];
+        }
+    }
+}
+
+
+/**
+ * Create void removed object.
+ * void値が削除されたオブジェクトを生成します
+ * @param obj object
+ * @returns N/A removed object
+ */
+export function voidRemoved(obj: Object): Object {
+    const result = {};
+
+    for (const k in obj) {
+        const v = obj[k];
+        if (v !== null && v !== undefined) {
+            result[k] = v;
+        }
     }
 
     return result;
@@ -167,17 +205,17 @@ export function merge<T1, T2>(obj1: T1, obj2: T2, recursive: boolean=false): T1 
 
 
 /**
- * Create N/A removed object.
- * N/A値が削除されたオブジェクトを生成します
+ * Create empty removed object.
+ * 空の値が削除されたオブジェクトを生成します
  * @param obj object
- * @returns N/A removed object
+ * @returns empty removed object
  */
-export function naRemoved(obj: Object): Object {
+export function emptyRemoved(obj: Object): Object {
     const result = {};
 
     for (const k in obj) {
         const v = obj[k];
-        if (v !== null && v !== undefined) {
+        if (v !== null && v !== undefined && v.length !== 0) {
             result[k] = v;
         }
     }
