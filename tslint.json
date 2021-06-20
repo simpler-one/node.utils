@@ -27,8 +27,8 @@
             "check-type-operator",
             "check-preblock"
         ],
-        "member-ordering": [
-            true, {"order": [
+        "member-ordering": [true, {
+            "order": [
                 "public-static-field",
                 "protected-static-field",
                 "private-static-field",
@@ -48,8 +48,8 @@
                 "public-instance-method",
                 "protected-instance-method",
                 "private-instance-method"
-            ]}
-        ]
+            ]
+        }]
     },
     "linterOptions": {
         "exclude": [
