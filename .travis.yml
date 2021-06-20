@@ -11,3 +11,4 @@ branches:
 after_success:
   - npm run .remapcov
   - npx codecov
+  - npm run .cov

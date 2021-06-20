@@ -1,3 +1,4 @@
 ---
+# 具体名は前後一方のみ
 exclude_paths:
   - "**/*.spec.ts"
