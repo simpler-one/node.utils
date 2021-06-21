@@ -1,0 +1,7 @@
+# https://github.com/unifiedjs/unified-engine/blob/main/doc/configure.md
+
+plugins:
+  remark-preset-lint-recommended: true
+  remark-preset-lint-consistent: true
+  remark-lint-list-item-indent: true
+  remark-lint-no-heading-punctuation: ".,;:!"
