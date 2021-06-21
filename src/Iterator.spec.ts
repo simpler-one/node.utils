@@ -177,21 +177,20 @@ describe("Iterator", () => {
             expect([...result]).toEqual([5, 4, 3, 2, 1]);
         });
 
-        it("should throw error", () => {
+        it("should throw error", (done) => {
             // Given
             const start = -1;
             const stop = 5;
             const increment = 0;
-            let error = false;
             // When
             const result = range(start, stop, increment);
             try {
                 result.next();
+                fail();
             } catch (e) {
-                error = true;
+                // Then
+                done();
             }
-            // Then
-            expect(error).toEqual(true);
         });
 
         it("should return empty iterator when no arguments given", () => {

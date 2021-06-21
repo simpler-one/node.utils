@@ -61,9 +61,9 @@ export function allNotNa(obj: {[key: string]: any}): void {
  * オブジェクトの全ての値が数値であると宣言します。
  * @param obj object
  */
-export function allNumeric(obj: {[key: string]: string | any[]}): void {
+export function allNumeric(obj: {[key: string]: any}): void {
     for (const k in obj) {
-        if (!(obj[k] instanceof Number)) {
+        if (typeof obj[k] !== "number") {
             throw AssertionError.fromTemplate(k, obj[k], "is not numeric");
         }
     }
@@ -78,7 +78,7 @@ export function allNumeric(obj: {[key: string]: string | any[]}): void {
  */
 export function allPositive(obj: {[key: string]: number}): void {
     for (const k in obj) {
-        if (obj[k] <= 0) {
+        if (!(0 < obj[k])) {
             throw AssertionError.fromTemplate(k, obj[k], "is not positive");
         }
     }
@@ -93,7 +93,7 @@ export function allPositive(obj: {[key: string]: number}): void {
  */
 export function allNotNegative(obj: {[key: string]: number}): void {
     for (const k in obj) {
-        if (obj[k] < 0) {
+        if (!(0 <= obj[k])) {
             throw AssertionError.fromTemplate(k, obj[k], "is negative");
         }
     }
@@ -123,7 +123,7 @@ export function allInteger(obj: {[key: string]: number}): void {
  */
 export function allNotEmpty(obj: {[key: string]: string | any[]}): void {
     for (const k in obj) {
-        if (0 < obj[k]?.length) {
+        if (!(0 < obj[k]?.length)) {
             throw AssertionError.fromTemplate(k, obj[k], "is empty");
         }
     }
