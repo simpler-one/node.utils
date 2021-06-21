@@ -1,8 +1,6 @@
-.config/
 .local/
 # dist/ : necessary
 samples/
-spec/
 src/
 .gitignore
 .travis.yml
