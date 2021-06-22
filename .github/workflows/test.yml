@@ -1,5 +1,9 @@
 name: test
 
+__const__:
+  - &node-latest 16.x
+  - &node-lts    14.17.x
+
 on:
   push:
     branches:
@@ -12,8 +16,6 @@ on:
 
 jobs:
   build:
-    runs-on: ${{ matrix.os }}
-
     strategy:
       matrix:
         os:
@@ -21,20 +23,22 @@ jobs:
           # - windows-latest
           # - macos-latest
         node-version:
-        - 16.x    # Latest
-        - 14.17.x # LTS
+          - *node-latest
+          - *node-lts
+
+    runs-on: ${{ matrix.os }}
 
     steps:
       - uses: actions/checkout@v2
       - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v2
         with:
           node-version: ${{ matrix.node-version }}
       - run: npm ci
-      - run: npm run build --if-present
       - run: npm test
-      - name: Run codacy-coverage-reporter
-        uses: codacy/codacy-coverage-reporter-action@v1
+
+      # == after pass ==
+      - uses: codacy/codacy-coverage-reporter-action@v1
         with:
           project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
           coverage-reports: coverage/lcov.info

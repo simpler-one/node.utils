@@ -1,6 +1,7 @@
 English | [日本語](README-jp.md)
 
 # Node Util
+[![build](https://github.com/simpler-one/node.utils/actions/workflows/build.yml/badge.svg)](https://github.com/simpler-one/node.utils/actions/workflows/build.yml)
 [![test](https://github.com/simpler-one/node.utils/actions/workflows/test.yml/badge.svg)](https://github.com/simpler-one/node.utils/actions/workflows/test.yml)
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/32115e7847ea4983b05a87839525d80c)](https://www.codacy.com/gh/simpler-one/node.utils/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=simpler-one/node.utils&amp;utm_campaign=Badge_Grade)
 [![Codacy Badge](https://app.codacy.com/project/badge/Coverage/32115e7847ea4983b05a87839525d80c)](https://www.codacy.com/gh/simpler-one/node.utils/dashboard?utm_source=github.com&utm_medium=referral&utm_content=simpler-one/node.utils&utm_campaign=Badge_Coverage)
