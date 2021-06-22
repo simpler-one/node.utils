@@ -1,8 +1,8 @@
 name: test
 
-__const__:
-  - &node-latest 16.x
-  - &node-lts    14.17.x
+env:
+  node-latest: 16.x
+  node-lts: 14.17.x
 
 on:
   push:
@@ -23,8 +23,8 @@ jobs:
           # - windows-latest
           # - macos-latest
         node-version:
-          - *node-latest
-          - *node-lts
+          - ${{ env.node-latest }}
+          - ${{ env.node-lts }}
 
     runs-on: ${{ matrix.os }}
 

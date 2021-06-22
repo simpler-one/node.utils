@@ -1,8 +1,8 @@
 name: release
 
-__const__:
-  - &node-latest 16.x
-  - &node-lts    14.17.x
+env:
+  node-latest: 16.x
+  node-lts: 14.17.x
 
 on:
   push:
@@ -18,7 +18,7 @@ jobs:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
         with:
-          node-version: *node-lts
+          node-version: ${{ env.node-lts }}
       - run: npm install can-npm-publish
       - run: npx can-npm-publish
 
