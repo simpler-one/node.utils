@@ -1,9 +1,5 @@
 name: release
 
-env:
-  node-latest: 16.x
-  node-lts: 14.17.x
-
 on:
   push:
     branches: [master]
@@ -18,7 +14,7 @@ jobs:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
         with:
-          node-version: ${{ env.node-lts }}
+          node-version: 14.17.x # node-lts
       - run: npm install can-npm-publish
       - run: npx can-npm-publish
 

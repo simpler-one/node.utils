@@ -1,9 +1,5 @@
 name: test
 
-env:
-  node-latest: 16.x
-  node-lts: 14.17.x
-
 on:
   push:
     branches:
@@ -23,8 +19,8 @@ jobs:
           # - windows-latest
           # - macos-latest
         node-version:
-          - ${{ env.node-latest }}
-          - ${{ env.node-lts }}
+          - 16.x # node-latest
+          - 14.17.x # node-lts
 
     runs-on: ${{ matrix.os }}
 
