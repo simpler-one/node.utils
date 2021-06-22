@@ -1,28 +1,28 @@
 {
   "name": "node.utils",
   "version": "0.1.0",
-  "description": "Template for NodeJS",
+  "description": "Utils for NodeJS",
   "main": "index.js",
   "types": "index.d.ts",
   "scripts": {
     "build": "tsc --build --clean && tsc --build && npm run .copy-dist",
-    "lint": "eslint ./src/**/*.ts && tslint ./src/**/*.ts && npm run .lint:md",
-    "lint:fix": "eslint --fix ./src/**/*.ts && tslint --fix ./src/**/*.ts",
+    "lint": "eslint src/**/*.ts && tslint src/**/*.ts && npm run .lint:md",
+    "lint:fix": "eslint --fix src/**/*.ts && tslint --fix src/**/*.ts",
     "test": "jest",
 
     ".. sub script ..": "",
-    ".copy-dist": "cpx package.json dist/ && cpx LICENSE dist/ && cpx README.md dist/",
+    ".cp": "node -e \"[_,sr,ds] = process.argv; require('fs').copyFileSync(sr, ds.endsWith('/') ? ds+sr : ds)\"",
+    ".copy-dist": "npx .cp package.json dist/ && npx .cp LICENSE dist/ && npx .cp README.md dist/",
     ".lint:md": "npx remark ./**/*.md --silently-ignore",
 
     "__ memo __": "",
-    "__versions:installed__": "npm ls --depth=0",
+    "__ls__": "npm ls --depth=0",
     "__outdated__": "npm outdated"
   },
   "devDependencies": {
     "@types/jest": "^26.0.23",
     "@typescript-eslint/eslint-plugin": "^4.27.0",
     "@typescript-eslint/parser": "^4.27.0",
-    "cpx": "^1.5.0",
     "eslint": "^7.29.0",
     "eslint-config-google": "^0.14.0",
     "jest": "^27.0.4",
