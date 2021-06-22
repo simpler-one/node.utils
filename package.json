@@ -12,7 +12,7 @@
 
     ".. sub script ..": "",
     ".cp": "node -e \"[_,sr,ds] = process.argv; require('fs').copyFileSync(sr, ds.endsWith('/') ? ds+sr : ds)\"",
-    ".copy-dist": "npx .cp package.json dist/ && npx .cp LICENSE dist/ && npx .cp README.md dist/",
+    ".copy-dist": "npm run .cp package.json dist/ && npm run .cp LICENSE dist/ && npm run .cp README.md dist/",
     ".lint:md": "npx remark ./**/*.md --silently-ignore",
 
     "__ memo __": "",
