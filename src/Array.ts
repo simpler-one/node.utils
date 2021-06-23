@@ -1,5 +1,7 @@
 import { clip } from "./Number"
 
+// first
+// last
 
 export function startsWith<T>(array: T[], prefix: T[]): boolean {
     if (!(prefix?.length <= array?.length)) {
@@ -37,3 +39,5 @@ export function split<T>(array: T[], length: number): [T[], T[]] {
     len = clip(len, 0, array.length);
     return [array.slice(0, len), array.slice(len)];
 }
+
+// split pop
