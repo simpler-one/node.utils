@@ -24,6 +24,21 @@ export function getProperty(obj: object, path: string[]): any {
 }
 
 
+export function setProperty(obj: object, path: string[], value: any): void {
+    let cur = obj;
+
+    for (const k of path.slice(-1)) {
+        if (cur === null || cur === undefined) {
+            return;
+        }
+
+        cur = cur[k];
+    }
+
+    cur[path[path.length - 1]] = value;
+}
+
+
 /**
  * Check equality of two objects.
  *
