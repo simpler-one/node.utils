@@ -46,8 +46,33 @@ export function copy<T>(source: T[], destination: T[], length: number): void;
 export function copy<T>(
     source: T[], sourceOffset: number, destination: T[], destinationOffset: number, length: number
 ): void;
-export function copy<T>(source: T[], ...args: T[]): void {
+export function copy<T>(src: T[], ...args: T[]): void {
+    let srcOffset: number = 0;
+    let dst: T[];
+    let dstOffset: number = 0;
+    let len: number = source.length;
 
+    switch (args.length) {
+    case 1:
+        [dst] = args;
+        break;
+    case 2:
+        [dst, len] = args;
+        break;
+    case 4:
+        [srcOffset, dst, dstOffset, len] = args;
+        break;
+    default:
+        throw new Error("Invalid overload arguments");
+    } 
+}
+
+function _copy<>(
+    source: T[], sourceOffset: number, destination: T[], destinationOffset: number, length: number
+): void {
+    for (let i = 0; i < length; i++) {
+        destination[destinationOffset + i] = source[sourceOffset + i];
+    }
 }
 
 
