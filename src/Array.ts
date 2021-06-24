@@ -46,11 +46,11 @@ export function copy<T>(source: T[], destination: T[], length: number): void;
 export function copy<T>(
     source: T[], sourceOffset: number, destination: T[], destinationOffset: number, length: number
 ): void;
-export function copy<T>(src: T[], ...args: T[]): void {
+export function copy<T>(src: T[], ...args: any[]): void {
     let srcOffset: number = 0;
     let dst: T[];
     let dstOffset: number = 0;
-    let len: number = source.length;
+    let len: number = src.length;
 
     switch (args.length) {
     case 1:
@@ -64,10 +64,12 @@ export function copy<T>(src: T[], ...args: T[]): void {
         break;
     default:
         throw new Error("Invalid overload arguments");
-    } 
+    }
+
+    _copy(src, srcOffset, dst, dstOffset, len);
 }
 
-function _copy<>(
+function _copy<T>(
     source: T[], sourceOffset: number, destination: T[], destinationOffset: number, length: number
 ): void {
     for (let i = 0; i < length; i++) {
@@ -77,10 +79,14 @@ function _copy<>(
 
 
 export function equals<T>(array1: T[], array2: T[]): boolean;
-export function equals<T>(array1: T[], array2: T[], comparison: (v1: T, v2: T) => boolean): boolean;
+export function equals<T>(array1: T[], array2: T[], equal: (v1: T, v2: T) => boolean): boolean;
 
-export function equals<T>(array1: T[], array2: T[], comparison: (v1: T, v2: T) => boolean = undefined): boolean {
+export function equals<T>(array1: T[], array2: T[], eq: (v1: T, v2: T) => boolean = undefined): boolean {
+    if (array1.length !== array2.length) {
+        return false;
+    }
 
+    return _partialEquals(array1, 0, array2, 0, array1.length, eq);
 }
 
 
@@ -88,11 +94,51 @@ export function partialEquals<T>(array1: T[], array2: T[], length: number): bool
 export function partialEquals<T>(array1: T[], offset1: number, array2: T[], offset2: number, length: number): boolean;
 export function partialEquals<T>(
     array1: T[], offset1: number, array2: T[], offset2: number, length: number,
-    comparison: (v1: T, v2: T) => boolean
+    equal: (v1: T, v2: T) => boolean
 ): boolean;
 
 export function partialEquals<T>(array1: T[], ...args: any[]): boolean {
+    let offset1: number = 0;
+    let array2: T[];
+    let offset2: number = 0;
+    let len: number;
+    let eq: (v1: T, v2: T) => boolean = undefined;
 
+    switch (args.length) {
+    case 2:
+        [array2, len] = args;
+        break;
+    case 4:
+        [offset1, array2, offset2, len] = args;
+        break;
+    case 5:
+        [offset1, array2, offset2, len, eq] = args;
+        break;
+    default:
+        throw new Error("Invalid overload arguments");
+    }
+
+    return _partialEquals(array1, offset1, array2, offset2, len, eq);
+}
+function _partialEquals<T>(
+    array1: T[], offset1: number, array2: T[], offset2: number, length: number,
+    eq: (v1: T, v2: T) => boolean
+) {
+    if (typeof eq !== "function") {
+        for (let i = 0; i < length; i++) {
+            if (array1[offset1 + i] !== array2[offset2 + i]) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    for (let i = 0; i < length; i++) {
+        if (!eq(array1[i], array2[i])) {
+            return false;
+        }
+    }
+    return true;
 }
 
 
