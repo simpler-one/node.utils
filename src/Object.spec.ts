@@ -1,4 +1,4 @@
-import { clone, copy, emptyRemoved, entries, equals, getProperty, setProperty, voidRemoved } from "./Object";
+import { clone, copy, emptyRemoved, iterEntries, equals, getProperty, setProperty, voidRemoved } from "./Object";
 
 const OBJ = Object.freeze({
     a: 123,
@@ -120,12 +120,12 @@ describe("Object", () => {
     });
 
 
-    describe("entries()", () => {
+    describe("iterEntries()", () => {
         it("should return shallow iterator", () => {
             // Given
             const obj = OBJ;
             // When
-            const result = entries(obj, false);
+            const result = iterEntries(obj, false);
             // Then
             expect([...result]).toEqual([
                 [["a"], 123],
@@ -137,7 +137,7 @@ describe("Object", () => {
             // Given
             const obj = OBJ;
             // When
-            const result = entries(obj, true, false);
+            const result = iterEntries(obj, true, false);
             // Then
             expect([...result]).toEqual([
                 [["a"], 123],
@@ -149,7 +149,7 @@ describe("Object", () => {
             // Given
             const obj = OBJ;
             // When
-            const result = entries(obj, true, true);
+            const result = iterEntries(obj, true, true);
             // Then
             expect([...result]).toEqual([
                 [["a"], 123],
@@ -305,6 +305,17 @@ describe("Object", () => {
             // Then
             expect(result).toEqual(false);
             expect(obj).toEqual({ a: { b: 0, c: 1 }});
+        });
+
+        it("should not set value when void given", () => {
+            // Given
+            const obj = undefined;
+            const path = ["x", "y", "x"];
+            const value = 2;
+            // When
+            const result = setProperty(obj, path, value);
+            // Then
+            expect(result).toEqual(false);
         });
     });
 

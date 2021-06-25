@@ -186,7 +186,7 @@ export function clone<T>(src: T, recursive: boolean= false): T {
  * @param recursive iterate recursively
  * @param includesBranch includes branch object
  */
-export function* entries(
+export function* iterEntries(
     obj: object,
     recursive: boolean= false,
     includesBranch: boolean= false
