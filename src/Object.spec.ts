@@ -1,4 +1,4 @@
-import { clone, copy, emptyRemoved, entries, equals, getProperty, voidRemoved } from "./Object";
+import { clone, copy, emptyRemoved, entries, equals, getProperty, setProperty, voidRemoved } from "./Object";
 
 const OBJ = Object.freeze({
     a: 123,
@@ -6,7 +6,7 @@ const OBJ = Object.freeze({
 });
 
 
-describe("String", () => {
+describe("Object", () => {
     describe("clone()", () => {
         it("should return shallow copied object", () => {
             // Given
@@ -276,6 +276,35 @@ describe("String", () => {
             const result = getProperty(obj, path);
             // Then
             expect(result).toEqual(undefined);
+        });
+    });
+
+
+    describe("setProperty()", () => {
+        it("should set value", () => {
+            // Given
+            const obj = { a: { b: 0, c: 1 }};
+            const path = ["a", "d"];
+            const value = 2;
+            // When
+            const result = setProperty(obj, path, value);
+            // Then
+            expect(result).toEqual(true);
+            expect(obj).toEqual({
+                a: { b: 0, c: 1, d: 2 }
+            });
+        });
+
+        it("should not set value", () => {
+            // Given
+            const obj = { a: { b: 0, c: 1 }};
+            const path = ["x", "y", "x"];
+            const value = 2;
+            // When
+            const result = setProperty(obj, path, value);
+            // Then
+            expect(result).toEqual(false);
+            expect(obj).toEqual({ a: { b: 0, c: 1 }});
         });
     });
 

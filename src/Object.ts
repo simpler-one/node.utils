@@ -24,31 +24,43 @@ export function getProperty(obj: object, path: string[]): any {
 }
 
 
-export function setProperty(obj: object, path: string[], value: any): void {
+/**
+ * Set a property value.
+ *
+ * プロパティの値を設定します。
+ * @param obj object
+ * @param path path to property
+ * @param value value
+ * @returns success to set
+ */
+export function setProperty(obj: object, path: string[], value: any): boolean {
+    if (obj === null || obj === undefined) {
+        return false;
+    }
+
     let cur = obj;
-
-    for (const k of path.slice(-1)) {
-        if (cur === null || cur === undefined) {
-            return;
-        }
-
+    for (const k of path.slice(0, -1)) {
         cur = cur[k];
+        if (cur === null || cur === undefined) {
+            return false;
+        }
     }
 
     cur[path[path.length - 1]] = value;
+    return true;
 }
 
 
 /**
- * Check equality of two objects.
+ * Compare two objects to check them equality.
  *
- * 2つのオブジェクトが等しいか調べます。
+ * 2つのオブジェクトが等しいか比較します。
  * @param obj1 object
  * @param obj2 object
  * @param recursive checks recursively
  * @returns equality
  */
-export function equals(obj1: any, obj2: any, recursive= false) {
+export function equals(obj1: any, obj2: any, recursive: boolean= false) {
     if (obj1 === obj2) {
         return true;
     }
