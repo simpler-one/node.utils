@@ -1,4 +1,15 @@
 /**
+ * Return the absolute value.
+ *
+ * 絶対値を返却します。
+ * @param value value
+ * @returns absolute value
+ */
+export function abs(value: number) {
+    return 0 <= value ? value : -value;
+}
+
+/**
  * Return a clipped (limited) value.
  *
  * 範囲内に制限された値を返却します。

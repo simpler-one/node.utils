@@ -2,12 +2,12 @@ import { clip } from "./Number";
 
 
 /**
- * Get a value at index.
+ * Return the item at the position of `index`.
  *
- * 値を取得します。
+ * `index` の位置にある要素を返却します。
  * @param array array
  * @param index index
- * @returns value
+ * @returns item in array
  */
 export function getValue<T>(array: T[], index: number): T {
     return array[index];
@@ -15,60 +15,61 @@ export function getValue<T>(array: T[], index: number): T {
 
 
 /**
- * Set a value at index.
+ * Replace the item at the position of `index` with `newItem`.
  *
- * 値を設定します。
- * インデックスが負数の場合は終端から数えたインデックスでします。
+ * `index` の位置にある要素を `newItem` で置き換えます。
  * @param array array
  * @param index index
- * @param value value
+ * @param newItem new item
  */
-export function setValue<T>(array: T[], index: number, value: T): void {
-    array[index] = value;
+export function setValue<T>(array: T[], index: number, newItem: T): void {
+    array[index] = newItem;
 }
 
 
 /**
- * Get a value at index.
- * It gets a value at index from end when index is negative.
+ * Return the item at the position of `index`.
+ * Negative `index` will be mapped to position from the end.
  *
- * インデックスの値を取得します。
- * インデックスが負数の場合は終端から数えたインデックスで取得します。
+ * `index` の位置にある要素を返却します。
+ * 負の `index` は末尾からの位置に変換されます。
  * @param array array
  * @param index index
- * @returns value
+ * @returns item in array
+ *   index >= 0: array[index]
+ *   index <  0: array[array.length - |index|]
  */
 export function at<T>(array: T[], index: number): T {
-    return 0 <= index ? array[index] : array[array.length + index - 1];
+    return 0 <= index ? array[index] : array[array.length + index];
 }
 
 
 /**
- * Set a value at index.
- * It sets a value at index from end when index is negative.
+ * Replace the item at the position of `index` with `newItem`.
+ * Negative `index` will be mapped to position from the end.
  *
- * インデックスの値を設定します。
- * インデックスが負数の場合は終端から数えたインデックスで設定します。
+ * `index` の位置にある要素を `newItem` に置き換えます。
+ * 負の `index` は末尾からの位置に変換されます。
  * @param array array
  * @param index index
- * @param value value
+ * @param newItem new item
  */
-export function setAt<T>(array: T[], index: number, value: T): void {
+export function setAt<T>(array: T[], index: number, newItem: T): void {
     if (0 <= index) {
-        array[index] = value;
+        array[index] = newItem;
     } else {
-        array[array.length + index - 1] = value;
+        array[array.length + index] = newItem;
     }
 }
 
 
 /**
- * Get a value at index from end.
+ * Return the item at the position of `index` from the end.
  *
- * 終端から数えたインデックスの値を取得します。
+ * 末尾から見て `index` の位置にある要素を返却します。
  * @param array array
  * @param index index
- * @returns value
+ * @returns item in array
  */
 export function reverseAt<T>(array: T[], index: number): T {
     return array[array.length - index - 1];
@@ -76,24 +77,24 @@ export function reverseAt<T>(array: T[], index: number): T {
 
 
 /**
- * Set a value at index from end.
+ * Replace the item at the position of `index` from end with `newItem`.
  *
- * 終端から数えたインデックスの値を設定します。
+ * 末尾から見て `index` の位置にある要素を `newItem` に置き換えます。
  * @param array array
  * @param index index
- * @param value value
+ * @param newItem new item
  */
-export function setReverseAt<T>(array: T[], index: number, value: T): void {
-    array[array.length - index - 1] = value;
+export function setReverseAt<T>(array: T[], index: number, newItem: T): void {
+    array[array.length - index - 1] = newItem;
 }
 
 
 /**
- * Get the first value of array.
+ * Return the first item of array.
  *
  * 配列の最初の値を取得します。
  * @param array array
- * @returns last value
+ * @returns first item
  */
 export function first<T>(array: T[]): T {
     return array[0];
@@ -101,23 +102,23 @@ export function first<T>(array: T[]): T {
 
 
 /**
- * Set the first value of array.
+ * Replace the first value of array with `newItem`.
  *
- * 配列の最初の値を設定します。
+ * 配列の最初の要素を `newItem` に置き換えます。
  * @param array array
- * @param value value
+ * @param newItem new item
  */
-export function setFirst<T>(array: T[], value: T): void {
-    array[0] = value;
+export function setFirst<T>(array: T[], newItem: T): void {
+    array[0] = newItem;
 }
 
 
 /**
- * Get the last value of array.
+ * Return the last item of array.
  *
  * 配列の最後の値を取得します。
  * @param array array
- * @returns last value
+ * @returns last item
  */
 export function last<T>(array: T[]): T {
     return array[array.length - 1];
@@ -125,38 +126,38 @@ export function last<T>(array: T[]): T {
 
 
 /**
- * Set the last value of array.
+ * Replace the last item of array with `newItem`.
  *
- * 配列の最後の値を設定します。
+ * 配列の最後の要素を `newItem` に置き換えます。
  * @param array array
- * @param value value
+ * @param newItem new item
  */
-export function setLast<T>(array: T[], value: T): void {
-    array[array.length - 1] = value;
+export function setLast<T>(array: T[], newItem: T): void {
+    array[array.length - 1] = newItem;
 }
 
 
 /**
- * Copy values shallowly.
+ * Copy all items to `destination` shallowly.
  *
- * 値をシャローコピーします。
+ * `destination` へシャローコピーします。
  * @param source source array
  * @param destination destination array
  */
 export function copy<T>(source: T[], destination: T[]): void;
 /**
- * Copy values shallowly.
+ * Copy items to `destination` shallowly.
  *
- * 値をシャローコピーします。
+ * `destination` へシャローコピーします。
  * @param source source array
  * @param destination destination array
  * @param length copy length
  */
 export function copy<T>(source: T[], destination: T[], length: number): void;
 /**
- * Copy values shallowly.
+ * Copy items of `length` to `destination` shallowly.
  *
- * 値をシャローコピーします。
+ * `destination` へ `length` 個の要素をシャローコピーします。
  * @param source source array
  * @param sourceOffset beginning index on source array
  * @param destination destination array
@@ -167,9 +168,9 @@ export function copy<T>(
     source: T[], sourceOffset: number, destination: T[], destinationOffset: number, length: number
 ): void;
 /**
- * Copy values.
+ * Copy items of `length` to `destination` with `clone`.
  *
- * 値をコピーします。
+ * `clone` 関数を用いて `destination` へ `length` 個の要素をコピーします。
  * @param source source array
  * @param sourceOffset beginning index on source array
  * @param destination destination array
@@ -178,16 +179,14 @@ export function copy<T>(
  * @param clone cloning function
  */
 export function copy<T>(
-    source: T[], sourceOffset: number,
-    destination: T[], destinationOffset: number,
-    length: number,
+    source: T[], sourceOffset: number, destination: T[], destinationOffset: number, length: number,
     clone: (value: T) => T
 ): void;
 export function copy<T>(src: T[], ...args: any[]): void {
     let srcOffset: number = 0;
     let dst: T[];
     let dstOffset: number = 0;
-    let len: number = src.length;
+    let len: number = src?.length;
 
     switch (args.length) {
     case 1:
@@ -230,18 +229,18 @@ function _copy<T>(
 
 
 /**
- * Compare two arrays to check them equality.
+ * Test whether both arrays are equal.
  *
- * 2つの配列が等しいか比較します。
+ * 両方の配列が等しいか調べます。
  * @param array1 array
  * @param array2 array
  * @returns equality
  */
 export function equals<T>(array1: T[], array2: T[]): boolean;
 /**
- * Compare two arrays to check them equality.
+ * Test whether both arrays are equal by using `equal` operator.
  *
- * 2つの配列が等しいか比較します。
+ * `equal` 演算子を用いて、両方の配列が等しいか調べます。
  * @param array1 array
  * @param array2 array
  * @param equal equality comparing function
@@ -263,9 +262,9 @@ export function equals<T>(array1: T[], array2: T[], ...args: any[]): boolean {
 
 
 /**
- * Compare two part of arrays to check them equality.
+ * Test whether both partial arrays are equal.
  *
- * 2つの配列の一部が等しいか比較します。
+ * 両方の配列の一部が等しいか調べます。
  * @param array1 array
  * @param array2 array
  * @param length length to compare
@@ -273,25 +272,25 @@ export function equals<T>(array1: T[], array2: T[], ...args: any[]): boolean {
  */
 export function partialEquals<T>(array1: T[], array2: T[], length: number): boolean;
 /**
- * Compare two part of arrays to check them equality.
+ * Test whether both partial arrays are equal.
  *
- * 2つの配列の一部が等しいか比較します。
+ * 両方の配列の一部が等しいか調べます。
  * @param array1 array
- * @param offset1 beginning index on array1
+ * @param offset1 beginning position of array1
  * @param array2 array
- * @param offset2 beginning index on array2
+ * @param offset2 beginning position of array2
  * @param length length to compare
  * @returns partial equality
  */
 export function partialEquals<T>(array1: T[], offset1: number, array2: T[], offset2: number, length: number): boolean;
 /**
- * Compare two part of arrays to check them equality.
+ * Test whether both partial arrays are equal by using `equal` operator.
  *
- * 2つの配列の一部が等しいか比較します。
+ * `equal` 演算子を用いて、両方の配列の一部が等しいか調べます。
  * @param array1 array
- * @param offset1 beginning index on array1
+ * @param offset1 beginning position of array1
  * @param array2 array
- * @param offset2 beginning index on array2
+ * @param offset2 beginning position of array2
  * @param length length to compare
  * @param equal equality comparing function
  * @returns partial equality
@@ -349,6 +348,14 @@ function _partialEquals<T>(
 }
 
 
+/**
+ * Test whether `array` starts with `prefix`.
+ *
+ * `array` が `prefix` で始まるかどうか調べます。
+ * @param array array
+ * @param prefix prefix
+ * @returns test result
+ */
 export function startsWith<T>(array: T[], prefix: T[]): boolean {
     if (!(prefix?.length <= array?.length)) {
         return false;
@@ -364,6 +371,14 @@ export function startsWith<T>(array: T[], prefix: T[]): boolean {
 }
 
 
+/**
+ * Test whether `array` ends with `suffix`.
+ *
+ * `array` が `suffix` で終わるかどうか調べます。
+ * @param array array
+ * @param suffix suffix
+ * @returns test result
+ */
 export function endsWith<T>(array: T[], suffix: T[]): boolean {
     const offset = array?.length - suffix?.length;
     if (!(0 <= offset)) {
@@ -381,14 +396,18 @@ export function endsWith<T>(array: T[], suffix: T[]): boolean {
 
 
 /**
- * Split array to two arrays.
+ * Split `array` at the position of `length`.
+ * Negative `length` will be mapped to position from the end.
  *
- * 配列を2つに分割します。
+ * 配列を `length` の位置で分割します。
+ * 負の `length` は末尾からの位置に変換されます。
  * @param array array
- * @param length length of first array
- * @returns split arrays
+ * @param length not negative: length of first array. negative: length of last array
+ * @returns two split arrays.
+ *   - length >= 0: [length, ...]
+ *   - length <  0: [..., |length|]
  */
-export function split<T>(array: T[], length: number): [T[], T[]] {
+export function spitAt<T>(array: T[], length: number): [T[], T[]] {
     let len = 0 <= length ? length : array.length + length;
     len = clip(len, 0, array.length);
     return [array.slice(0, len), array.slice(len)];
@@ -396,11 +415,12 @@ export function split<T>(array: T[], length: number): [T[], T[]] {
 
 
 /**
- * 
+ * Split `array` into popped array and the last item.
  *
+ * `array` をポップされた配列と末尾の要素に分割します。
  * @param array array
- * @returns [popped array, popped value]
+ * @returns [popped array, last item]
  */
-export function poppedSplit<T>(array: T[]): [T[], T] {
+export function splitToPopped<T>(array: T[]): [T[], T] {
     return [array.slice(0, array.length - 1), array[array.length - 1]];
 }

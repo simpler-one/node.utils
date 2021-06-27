@@ -1,7 +1,28 @@
-import { clip } from "./Number";
+import { abs, clip } from "./Number";
 
 
 describe("Number", () => {
+    describe("abs()", () => {
+        it("should return original value", () => {
+            // Given
+            const value = 1;
+            // When
+            const result = abs(value);
+            // Then
+            expect(result).toEqual(value);
+        });
+
+        it("should return positive value", () => {
+            // Given
+            const value = -1;
+            // When
+            const result = abs(value);
+            // Then
+            expect(result).toEqual(-value);
+        });
+    });
+
+
     describe("clip()", () => {
         it("should return original value (lower)", () => {
             // Given
