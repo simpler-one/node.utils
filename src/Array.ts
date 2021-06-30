@@ -408,8 +408,7 @@ export function endsWith<T>(array: T[], suffix: T[]): boolean {
  *   - length <  0: [..., |length|]
  */
 export function spitAt<T>(array: T[], length: number): [T[], T[]] {
-    let len = 0 <= length ? length : array.length + length;
-    len = clip(len, 0, array.length);
+    const len = 0 <= length ? length : array.length + length;
     return [array.slice(0, len), array.slice(len)];
 }
 
@@ -422,7 +421,7 @@ export function spitAt<T>(array: T[], length: number): [T[], T[]] {
  * @returns [first item, array without first]
  */
 export function splitFirst<T>(array: T[]): [T, T[]] {
-    return [array[0], array.slice(1, -1)];
+    return [array[0], array.slice(1)];
 }
 
 
@@ -434,5 +433,5 @@ export function splitFirst<T>(array: T[]): [T, T[]] {
  * @returns [array without last, last item]
  */
 export function splitLast<T>(array: T[]): [T[], T] {
-    return [array.slice(0, array.length - 1), array[array.length - 1]];
+    return [array.slice(0, -1), array[array.length - 1]];
 }
