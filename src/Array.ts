@@ -415,12 +415,12 @@ export function spitAt<T>(array: T[], length: number): [T[], T[]] {
 
 
 /**
- * Split `array` into popped array and the last item.
+ * Split `array` into array without the last item and the last item.
  *
- * `array` をポップされた配列と末尾の要素に分割します。
+ * `array` を末尾以外と末尾の要素に分割します。
  * @param array array
  * @returns [popped array, last item]
  */
-export function splitToPopped<T>(array: T[]): [T[], T] {
+export function splitLast<T>(array: T[]): [T[], T] {
     return [array.slice(0, array.length - 1), array[array.length - 1]];
 }
