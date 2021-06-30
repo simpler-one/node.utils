@@ -415,11 +415,23 @@ export function spitAt<T>(array: T[], length: number): [T[], T[]] {
 
 
 /**
+ * Split `array` into the first item and array without the first item.
+ *
+ * `array` を先頭の要素と先頭以外に分割します。
+ * @param array array
+ * @returns [first item, array without first]
+ */
+export function splitFirst<T>(array: T[]): [T, T[]] {
+    return [array[0], array.slice(1, -1)];
+}
+
+
+/**
  * Split `array` into array without the last item and the last item.
  *
  * `array` を末尾以外と末尾の要素に分割します。
  * @param array array
- * @returns [popped array, last item]
+ * @returns [array without last, last item]
  */
 export function splitLast<T>(array: T[]): [T[], T] {
     return [array.slice(0, array.length - 1), array[array.length - 1]];
