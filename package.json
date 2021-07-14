@@ -1,5 +1,5 @@
 {
-  "name": "node.utils",
+  "name": "@simpler-one/node.utils",
   "version": "0.1.0",
   "description": "Utils for NodeJS",
   "main": "index.js",
@@ -9,6 +9,7 @@
     "lint": "eslint src/**/*.ts && tslint src/**/*.ts && npm run .lint-md",
     "lint:fix": "eslint --fix src/**/*.ts && tslint --fix src/**/*.ts",
     "test": "jest",
+    "publish": "npm publish ./dist --access=public",
 
     ".. sub script ..": "",
     ".cp": "node -e \"[_,sr,ds] = process.argv; require('fs').copyFileSync(sr, ds.endsWith('/') ? ds+sr : ds)\"",
