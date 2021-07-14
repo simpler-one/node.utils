@@ -268,3 +268,74 @@ export function emptyRemoved(obj: object): object {
 
     return result;
 }
+
+
+export function parseObjectPath(path: string): string[] {
+    if (path.length === 0) {
+        return [];
+    }
+
+    const result = [];
+    let i = 0;
+
+    while (path[i] === " ") {
+        i++;
+    }
+
+    while (i < path.length) {
+        const c = path[i];
+        if (c === ".") {
+            i = _parseObjectPathAfterSeparator(path, i + 1, result);
+        } else if (c === "[") {
+            i = _parseObjectPathAfterObject(path, i, result);
+        } else {
+            i = _parseObjectPathAfterSeparator(path, i, result);
+        }
+    }
+
+    return result;
+}
+
+
+function _parseObjectPathAfterObject(path: string, start: number, result: string[]): number {
+    for (let i = start; i < path.length; i++) {
+        const c = path[i];
+        if (c === ".") {
+            return i;
+        }
+
+        if (c == "[") {
+            const srt = i + 1;
+            const end = path.indexOf("]", srt);
+            if (end < 0) {
+                result.push(path.substr(srt));
+                return path.length;
+            }
+
+            result.push(path.substr(srt, end - srt));
+            i = end;
+        }
+    }
+
+    return path.length;
+}
+
+
+function _parseObjectPathAfterSeparator(path: string, start: number, result: string[]): number {
+    let srt = start;
+    for (let i = srt; i < path.length; i++) {
+        const c = path[i];
+        if (c == "[") {
+            result.push(path.substr(srt, i - srt));
+            return i;
+        }
+
+        if (c === ".") {
+            result.push(path.substr(srt, i - srt));
+            srt = i + 1;
+        }
+    }
+
+    result.push(path.substr(start));
+    return path.length;
+}

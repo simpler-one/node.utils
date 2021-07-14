@@ -1,4 +1,4 @@
-import { clone, copy, emptyRemoved, iterEntries, equals, getProperty, setProperty, voidRemoved } from "./Object";
+import { clone, copy, emptyRemoved, iterEntries, equals, getProperty, setProperty, voidRemoved, parseObjectPath } from "./Object";
 
 const OBJ = Object.freeze({
     a: 123,
@@ -316,6 +316,36 @@ describe("Object", () => {
             const result = setProperty(obj, path, value);
             // Then
             expect(result).toEqual(false);
+        });
+    });
+
+
+    describe("parseObjectPath()", () => {
+        it("should return object path when given first is path", () => {
+            // Given
+            const path = " abc.def[123][vw].xyz";
+            // When
+            const result = parseObjectPath(path);
+            // Then
+            expect(result).toEqual(["abc", "def", "123", "vw", "xyz"]);
+        });
+
+        it("should return object path when given first is separator", () => {
+            // Given
+            const path = ".abc.def[123][vw].xyz";
+            // When
+            const result = parseObjectPath(path);
+            // Then
+            expect(result).toEqual(["abc", "def", "123", "vw", "xyz"]);
+        });
+
+        it("should return object path when given first is bracket", () => {
+            // Given
+            const path = "[abc].def.123[vw].xyz";
+            // When
+            const result = parseObjectPath(path);
+            // Then
+            expect(result).toEqual(["abc", "def", "123", "vw", "xyz"]);
         });
     });
 

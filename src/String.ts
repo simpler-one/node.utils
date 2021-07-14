@@ -47,9 +47,23 @@ export function padRight(value: string, length: number, padChar: string= " "): s
  *   - length >= 0: [length, ...]
  *   - length <  0: [..., |length|]
  */
-export function splitAt(value: string, length: number): [string, string] {
+export function splitAt(value: string, length: number): [string, string];
+/**
+ * Split `value` at the position of `length`.
+ * Negative `length` will be mapped to position from the end.
+ *
+ * 配列を `length` の位置で分割します。
+ * 負の `length` は末尾からの位置に変換されます。
+ * @param value string value
+ * @param length not negative: length of first string. negative: length of last string
+ * @returns two split strings.
+ *   - length >= 0: [length, ...]
+ *   - length <  0: [..., |length|]
+ */
+export function splitAt(value: string, length: number, gap: number): [string, string];
+export function splitAt(value: string, length: number, gap: number = 0): [string, string] {
     const len = 0 <= length ? length : value.length + length;
-    return [value.substr(0, len), value.substr(len)];
+    return [value.substr(0, len), value.substr(len + gap)];
 }
 
 
