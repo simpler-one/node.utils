@@ -108,3 +108,8 @@ export function splitLast(value: string, separator: string, emptyText: string = 
 export function isEmpty(value: string) {
     return value === null || value === undefined || value.length === 0;
 }
+
+
+export function isBlank(value: string) {
+    return value === null || value === undefined || value.length === 0 || value.search(/[^ 　\t]/) > 0;
+}
