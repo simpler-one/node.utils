@@ -103,3 +103,8 @@ export function splitLast(value: string, separator: string, emptyText: string = 
 
     return [value.substr(0, sepI), value.substr(sepI + separator.length)];
 }
+
+
+export function isEmpty(value: string) {
+    return value === null || value === undefined || value.length === 0;
+}

@@ -336,6 +336,6 @@ function _parseObjectPathAfterSeparator(path: string, start: number, result: str
         }
     }
 
-    result.push(path.substr(start));
+    result.push(path.substr(srt));
     return path.length;
 }
