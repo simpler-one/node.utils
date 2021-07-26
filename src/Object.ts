@@ -31,19 +31,25 @@ export function getProperty(obj: object, path: string[]): any {
  * @param obj object
  * @param path path to property
  * @param value value
+ * @param createsChildren 
  * @returns success to set
  */
-export function setProperty(obj: object, path: string[], value: any): boolean {
+export function setProperty(obj: object, path: string[], value: any, createsChildren: boolean = false): boolean {
     if (obj === null || obj === undefined) {
         return false;
     }
 
     let cur = obj;
     for (const k of path.slice(0, -1)) {
-        cur = cur[k];
-        if (cur === null || cur === undefined) {
-            return false;
+        if (cur[k] === null || cur[k] === undefined) {
+            if (!createsChildren) {
+                return false;
+            }
+
+            cur[k] = {};
         }
+
+        cur = cur[k];
     }
 
     cur[path[path.length - 1]] = value;
@@ -304,7 +310,7 @@ function _parseObjectPathAfterObject(path: string, start: number, result: string
             return i;
         }
 
-        if (c == "[") {
+        if (c === "[") {
             const srt = i + 1;
             const end = path.indexOf("]", srt);
             if (end < 0) {

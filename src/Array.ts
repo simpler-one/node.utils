@@ -435,3 +435,25 @@ export function splitFirst<T>(array: T[]): [T, T[]] {
 export function splitLast<T>(array: T[]): [T[], T] {
     return [array.slice(0, -1), array[array.length - 1]];
 }
+
+
+export function fromSize(size: number): any[] {
+    return Array.from({ length: size });
+}
+
+
+export function transpose<T>(array: T[][]): T[][] {
+    const rowLen = array.length;
+    const colLen = array[0].length;
+
+    const result = [];
+    for (let c = 0; c < colLen; c++) {
+        const col = [];
+        for (let r = 0; r < rowLen; r++) {
+            col.push(array[r][c]);
+        }
+        result.push(col);
+    }
+
+    return result;
+}
