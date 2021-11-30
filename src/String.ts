@@ -105,11 +105,25 @@ export function splitLast(value: string, separator: string, emptyText: string = 
 }
 
 
-export function isEmpty(value: string) {
+export function isEmpty(value: string): boolean {
     return value === null || value === undefined || value.length === 0;
 }
 
 
-export function isBlank(value: string) {
+export function isBlank(value: string): boolean {
     return value === null || value === undefined || value.length === 0 || value.search(/[^ 　\t]/) > 0;
+}
+
+
+export function fillPattern(pattern: string, args: { [key: string]: any }): string {
+    if(!pattern || !args) {
+        return pattern;
+    }
+
+    let result = pattern;
+    for (const [k, v] of Object.entries(args)) {
+        result = result.replaceAll(k, v);
+    }
+
+    return result;
 }
