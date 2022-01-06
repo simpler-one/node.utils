@@ -115,12 +115,12 @@ export function isBlank(value: string): boolean {
 }
 
 
-export function fillPattern(pattern: string, args: { [key: string]: any }): string {
+export function fillTemplate(template: string, args: { [key: string]: any }): string {
     if(!pattern || !args) {
-        return pattern;
+        return template;
     }
 
-    let result = pattern;
+    let result = template;
     for (const [k, v] of Object.entries(args)) {
         result = result.replaceAll(k, v);
     }
