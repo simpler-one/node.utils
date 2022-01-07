@@ -5,7 +5,7 @@ export const WEEKDAY_NAMES = Object.freeze([]);
 
 export function format(
     value: Date, template: string,
-    {
+    { monthFormat, weekdayFormat }: {
         monthFormat?: (month: number) => string,
         weekdayFormat?: (weekday: number) => string,
     } = undefined
