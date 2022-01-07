@@ -24,7 +24,7 @@ export function format(
         "{YYYY}": `${year}`.padStart("0", 4),
         "{M}": (monthFormat ?? String)(month),
         "{MM}": `${month}`.padStart("0", 2),
-        "{D}": ${day},
+        "{D}": `${day}`,
         "{DD}": `${day}`.padStart("0", 2),
         "{h}": `${hour}`,
         "{hh}": `${hour}`.padStart("0", 2),
