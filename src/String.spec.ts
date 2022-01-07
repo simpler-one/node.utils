@@ -1,4 +1,4 @@
-import { padLeft, padRight } from "./String";
+import { } from "./String";
 
 
 describe("String", () => {
