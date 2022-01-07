@@ -116,7 +116,7 @@ export function isBlank(value: string): boolean {
 
 
 export function fillTemplate(template: string, args: { [key: string]: any }): string {
-    if(!pattern || !args) {
+    if(!template || !args) {
         return template;
     }
 
