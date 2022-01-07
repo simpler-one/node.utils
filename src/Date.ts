@@ -16,24 +16,24 @@ export function format(
     const hour = `${value.getHours()}`;
     const minute = `${value.getMinutes()}`;
     const second = `${value.getSeconds()}`;
-    const ms = `${value.getMillseconds()}`;
+    const ms = `${value.getMilliseconds()}`;
     const wd = value.getDay();
 
     return fillTemplate(template, {
         "{Y}": year,
-        "{YYYY}": `${year}`.padStart("0", 4),
+        "{YYYY}": `${year}`.padStart(4, "0"),
         "{M}": (monthFormat ?? String)(month),
-        "{MM}": `${month}`.padStart("0", 2),
+        "{MM}": `${month}`.padStart(2, "0"),
         "{D}": `${day}`,
-        "{DD}": `${day}`.padStart("0", 2),
+        "{DD}": `${day}`.padStart(2, "0"),
         "{h}": `${hour}`,
-        "{hh}": `${hour}`.padStart("0", 2),
+        "{hh}": `${hour}`.padStart(2, "0"),
         "{m}": `${minute}`,
-        "{mm}": `${minute}`.padStart("0", 2),
+        "{mm}": `${minute}`.padStart(2, "0"),
         "{s}": `${second}`,
-        "{ss}": `${second}`.padStart("0", 2),
+        "{ss}": `${second}`.padStart(2, "0"),
         "{ms}": `${minute}`,
-        "{0ms}": `${minute}`.padStart("0", 3),
-        "{wd}": (weekdayFormat ?? String)(weekday),
+        "{0ms}": `${minute}`.padStart(3, "0"),
+        "{wd}": (weekdayFormat ?? String)(wd),
     });
 }
