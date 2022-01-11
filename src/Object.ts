@@ -314,11 +314,11 @@ function _parseObjectPathAfterObject(path: string, start: number, result: string
             const srt = i + 1;
             const end = path.indexOf("]", srt);
             if (end < 0) {
-                result.push(path.substr(srt));
+                result.push(path.substring(srt));
                 return path.length;
             }
 
-            result.push(path.substr(srt, end - srt));
+            result.push(path.substring(srt, end));
             i = end;
         }
     }
@@ -332,16 +332,16 @@ function _parseObjectPathAfterSeparator(path: string, start: number, result: str
     for (let i = srt; i < path.length; i++) {
         const c = path[i];
         if (c == "[") {
-            result.push(path.substr(srt, i - srt));
+            result.push(path.substring(srt, i));
             return i;
         }
 
         if (c === ".") {
-            result.push(path.substr(srt, i - srt));
+            result.push(path.substring(srt, i));
             srt = i + 1;
         }
     }
 
-    result.push(path.substr(srt));
+    result.push(path.substring(srt));
     return path.length;
 }

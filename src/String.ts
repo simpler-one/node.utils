@@ -26,7 +26,7 @@ export function splitAt(value: string, length: number): [string, string];
 export function splitAt(value: string, length: number, gap: number): [string, string];
 export function splitAt(value: string, length: number, gap: number = 0): [string, string] {
     const len = 0 <= length ? length : value.length + length;
-    return [value.substr(0, len), value.substr(len + gap)];
+    return [value.substring(0, len), value.substring(len + gap)];
 }
 
 
@@ -45,7 +45,7 @@ export function splitFirst(value: string, separator: string, emptyText: string =
         return [emptyText, value];
     }
 
-    return [value.substr(0, sepI), value.substr(sepI + separator.length)];
+    return [value.substring(0, sepI), value.substring(sepI + separator.length)];
 }
 
 
@@ -64,7 +64,7 @@ export function splitLast(value: string, separator: string, emptyText: string = 
         return [value, emptyText];
     }
 
-    return [value.substr(0, sepI), value.substr(sepI + separator.length)];
+    return [value.substring(0, sepI), value.substring(sepI + separator.length)];
 }
 
 
@@ -85,7 +85,7 @@ export function fillTemplate(template: string, args: { [key: string]: any }): st
 
     let result = template;
     for (const [k, v] of Object.entries(args)) {
-        result = result.replaceAll(k, v);
+        result = result.replaceAll(k, String(v));
     }
 
     return result;
