@@ -1,6 +1,7 @@
 import { } from "./String";
 
 
-// describe("String", () => {
-
-// });
+describe("String", () => {
+    it("TODO", () => {
+    });
+});
